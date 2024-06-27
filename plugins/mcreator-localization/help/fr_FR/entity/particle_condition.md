@@ -1,0 +1,1 @@
+Quand cette procédure conditionnelle est vraie, l'entité fera apparaitre des particules basées sur les paramètres.

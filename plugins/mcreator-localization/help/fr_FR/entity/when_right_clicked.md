@@ -1,0 +1,1 @@
+Déclenche la procédure quand le joueur fait un clic droit sur l'entité.

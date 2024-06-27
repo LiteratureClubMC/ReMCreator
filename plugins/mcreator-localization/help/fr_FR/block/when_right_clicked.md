@@ -1,0 +1,1 @@
+Lorsqu'un joueur fait clique-droit sur le bloc, la procédure est exécutée.

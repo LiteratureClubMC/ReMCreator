@@ -1,0 +1,1 @@
+Ce paramètre permet de définir une forme dans laquelle les particules apparaitront.

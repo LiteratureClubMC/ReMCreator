@@ -1,0 +1,1 @@
+Cette procédure est exécutée quand un joueur fait un clic droit avec cet item dans sa main.

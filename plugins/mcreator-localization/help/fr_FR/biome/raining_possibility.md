@@ -1,0 +1,1 @@
+Ce paramètre contrôle la possibilité de pleuvoir à l'intérieur du biome.

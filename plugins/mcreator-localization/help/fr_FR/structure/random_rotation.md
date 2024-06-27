@@ -1,0 +1,1 @@
+Si coché, la structure sera tournée dans une direction différente et aléatoire à chaque apparition.

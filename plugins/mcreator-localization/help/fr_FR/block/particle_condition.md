@@ -1,0 +1,1 @@
+Lorsque cette procédure conditionnelle est vraie, le bloc en x, y et z va générer des particules en fonction des paramètres

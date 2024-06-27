@@ -1,0 +1,1 @@
+Si coché, l'arme à distance tirera constamment lorsque le joueur fera clic-droit avec.

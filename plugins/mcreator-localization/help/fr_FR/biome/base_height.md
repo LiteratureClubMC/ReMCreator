@@ -1,0 +1,1 @@
+Ce paramètre contrôle la hauteur de ce biome. Par exemple, les montagnes ont ce paramètre défini sur une valeur élevée.
