@@ -6,9 +6,9 @@ updates:
     interval: weekly
   open-pull-requests-limit: 10
   reviewers:
-  - KlemenDEV
+  - NotMonika-FuckThe2fa
   assignees:
-  - KlemenDEV
+  - NotMonika-FuckThe2fa
   labels:
   - dependencies
   ignore:
