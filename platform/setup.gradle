@@ -3,7 +3,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 def jdk8_win_32 = 'https://download.bell-sw.com/java/8u275+1/bellsoft-jdk8u275+1-windows-i586-full.zip'
 def jdk8_win_64 = 'https://download.bell-sw.com/java/8u275+1/bellsoft-jdk8u275+1-windows-amd64-full.zip'
 def jdk8_linux_32 = 'https://download.bell-sw.com/java/8u275+1/bellsoft-jdk8u275+1-linux-i586-full.tar.gz'
-def jdk8_linux_64 = 'https://download.bell-sw.com/java/8u275+1/bellsoft-jdk8u275+1-linux-amd64-full.tar.gz'
+def jdk8_linux_64 = 'https://mirrors.tuna.tsinghua.edu.cn/Adoptium/8/jdk/x64/windows/OpenJDK8U-jdk_x64_windows_hotspot_8u412b08.zip'
 def jdk8_mac_64 = 'https://download.bell-sw.com/java/8u275+1/bellsoft-jdk8u275+1-macos-amd64-full.zip'
 
 def nsis_url = 'https://netcologne.dl.sourceforge.net/project/nsis/NSIS%203/3.05/nsis-3.05.zip'
