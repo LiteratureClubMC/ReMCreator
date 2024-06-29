@@ -33,7 +33,6 @@ public class PreferencesData {
 	@PreferencesSection public IDESettings ide = new IDESettings();
 	@PreferencesSection public GradleSettings gradle = new GradleSettings();
 	@PreferencesSection public BedrockSettings bedrock = new BedrockSettings();
-	@PreferencesSection public NotificationSettings notifications = new NotificationSettings();
 
 	public HiddenPreferences hidden = new HiddenPreferences();
 
@@ -54,14 +53,6 @@ public class PreferencesData {
 		@PreferencesEntry public boolean use2DAcceleration = false;
 		@PreferencesEntry public boolean autoreloadTabs = true;
 		@PreferencesEntry public boolean discordRichPresenceEnable = true;
-
-	}
-
-	public static class NotificationSettings {
-
-		@PreferencesEntry public boolean openWhatsNextPage = true;
-		@PreferencesEntry public boolean checkAndNotifyForUpdates = true;
-		@PreferencesEntry public boolean checkAndNotifyForPatches = true;
 
 	}
 

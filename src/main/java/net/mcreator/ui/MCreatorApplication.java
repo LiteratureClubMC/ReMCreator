@@ -36,7 +36,6 @@ import net.mcreator.preferences.PreferencesManager;
 import net.mcreator.ui.action.impl.AboutAction;
 import net.mcreator.ui.component.util.DiscordClient;
 import net.mcreator.ui.component.util.MacOSUIUtil;
-import net.mcreator.ui.dialogs.UpdateNotifyDialog;
 import net.mcreator.ui.dialogs.preferences.PreferencesDialog;
 import net.mcreator.ui.help.HelpLoader;
 import net.mcreator.ui.init.*;
@@ -149,8 +148,6 @@ public final class MCreatorApplication {
 
 		isInternet = MCreatorApplication.WEB_API.initAPI();
 
-		// we do async login attempt
-		UpdateNotifyDialog.showUpdateDialogIfUpdateExists(splashScreen, false);
 
 		splashScreen.setProgress(100, "Loading MCreator windows");
 
@@ -163,11 +160,6 @@ public final class MCreatorApplication {
 		discordClient = new DiscordClient();
 
 		workspaceSelector = new WorkspaceSelector(this, this::openWorkspaceInMCreator);
-
-		if (Launcher.version.isSnapshot()) {
-			JOptionPane.showMessageDialog(splashScreen, L10N.t("action.eap_loading.text"),
-					L10N.t("action.eap_loading.title"), JOptionPane.WARNING_MESSAGE);
-		}
 
 		discordClient.updatePresence(L10N.t("dialog.discord_rpc.just_opened"),
 				L10N.t("dialog.discord_rpc.version") + Launcher.version.getMajorString());

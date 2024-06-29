@@ -247,7 +247,6 @@ public class MainMenuBar extends JMenuBar {
 		help.addSeparator();
 		help.add(mcreator.actionRegistry.donate);
 		help.addSeparator();
-		help.add(mcreator.actionRegistry.checkForUpdates);
 		help.add(mcreator.actionRegistry.aboutMCreator);
 		help.setMnemonic('H');
 		add(help);
