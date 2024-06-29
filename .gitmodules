@@ -1,0 +1,3 @@
+[submodule "plugins/generator"]
+	path = plugins/generator
+	url = https://github.com/LiteratureClubMC/Generator-Forge-1.12.2.git
