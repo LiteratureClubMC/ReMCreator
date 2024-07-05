@@ -1,0 +1,35 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "value",
+        "check": "Boolean"
+      },
+      {
+        "type": "input_value",
+        "name": "var",
+        "check": "Map<Boolean>"
+      },
+      {
+        "type": "input_value",
+        "name": "key",
+        "check": "String"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": "%{BKY_LOGIC_HUE}",
+    "mcreator": {
+        "toolbox_init": [
+            "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
+            "<value name=\"value\"><block type=\"logic_boolean\"><field name=\"BOOL\">TRUE</field></block></value>"
+        ],
+        "toolbox_id": "map",
+        "inputs": [
+         "value",
+         "var",
+         "key"
+        ]
+    }
+}  

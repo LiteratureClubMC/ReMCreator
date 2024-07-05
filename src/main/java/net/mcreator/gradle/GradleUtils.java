@@ -65,7 +65,7 @@ public class GradleUtils {
 
 		// otherwise, we try to set JAVA_HOME to the same Java as MCreator is launched with
 		String current_java_home = System.getProperty("java.home");
-		if (current_java_home != null && current_java_home.contains("jdk")) // only set it if it is jdk, not jre
+		if (current_java_home != null) // only set it if it is jdk, not jre
 			return current_java_home;
 
 		// if we can not get a better match, use system default JAVA_HOME variable

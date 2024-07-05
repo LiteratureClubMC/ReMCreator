@@ -1,0 +1,1 @@
+${input$var}.put(${input$key}, (double) ${input$value});

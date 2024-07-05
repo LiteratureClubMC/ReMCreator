@@ -1,0 +1,28 @@
+{
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "var",
+        "check": ["Map<String>","Map<Boolean>","Map<Number>","Map<Block>","Map<Map>"]
+      },
+      {
+        "type":"input_value",
+        "name": "key",
+        "check": ["String","Number"]
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 268,
+    "mcreator": {
+      "toolbox_init": [
+        "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>"
+      ],
+      "toolbox_id": "map",
+      "inputs": [
+        "var",
+        "key"
+      ]
+    } 
+}

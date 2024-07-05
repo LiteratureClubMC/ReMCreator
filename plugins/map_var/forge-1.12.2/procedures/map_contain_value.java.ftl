@@ -1,0 +1,1 @@
+${input$var}.containsValue(${input$value})

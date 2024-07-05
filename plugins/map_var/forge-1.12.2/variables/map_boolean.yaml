@@ -1,0 +1,10 @@
+defaultvalue: new HashMap<>()
+scopes:
+  local:
+    init: Map<String, Boolean> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    get: ${name}
+    set: ${name} = (${javaType}) ${value};
+  global_session:
+    init: public static Map<String, Boolean> ${var.getName()} = ${var.getValue()};
+    get: ${JavaModName}Variables.${name}
+    set: ${JavaModName}Variables.${name} = (Map)${value};

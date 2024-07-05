@@ -1,0 +1,63 @@
+task cleanupPlugins(type: DefaultTask) {
+    doFirst {
+        delete 'build/plugins/'
+    }
+}
+
+
+
+task copyDeps(type: Copy) {
+    from configurations.runtimeClasspath
+    into "build/export/lib/"
+}
+
+// export  all plugins
+file('plugins').traverse([maxDepth: 0, type: groovy.io.FileType.DIRECTORIES]) {
+    tasks.create(name: 'export_plugin_' + it.getName().replace('.', ''), type: Zip) { task ->
+        task.archiveName = it.getName() + '.zip'
+        task.destinationDir = file('build/plugins/')
+        task.from 'plugins/' + it.getName()
+        task.group "mcreatorPlugins"
+        task.mustRunAfter cleanupPlugins
+    }
+}
+
+task exportPlugins(type: DefaultTask) {
+    dependsOn tasks.matching { Task t -> t.name.startsWith("export_plugin_") }
+    dependsOn cleanupPlugins
+}
+
+task exportReleasePreTask(type: DefaultTask, dependsOn: testClasses) {
+    doFirst {
+        delete 'build/export/'
+        mkdir 'build/export/'
+    }
+}
+
+jar {
+    archiveFileName = 'mcreator.jar'
+    manifest {
+        attributes(
+                'Main-Class': 'net.mcreator.Launcher',
+                'MCreator-Version': project.mcreatorconf.getProperty('mcreator')
+        )
+    }
+}
+
+
+task export(type: Copy, dependsOn: [exportReleasePreTask, jar, exportPlugins, copyDeps]) {
+    into 'build/export/'
+    into('') {
+        from file('LICENSE.txt')
+        from "platform/launcher/"
+    }
+    into('plugins') { from 'build/plugins/' }
+    into('license') { with copySpec { from 'license' } }
+    into("lib"){
+        from configurations.runtimeClasspath
+        from "build/libs/mcreator.jar"
+    }
+    doLast {
+        project.logger.lifecycle('\nFINISHED export for MCreator ' + (String) project.mcreatorconf.getProperty('mcreator'))
+    }
+}

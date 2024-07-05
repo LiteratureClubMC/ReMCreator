@@ -170,3 +170,4 @@ task initialSetup(type: DefaultTask, group: 'setup') {
 idea.project.settings.taskTriggers {
     afterSync initialSetup
 }
+apply from:"platform/export.gradle"

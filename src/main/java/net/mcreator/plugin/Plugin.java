@@ -62,15 +62,6 @@ public class Plugin implements Comparable<Plugin> {
 	}
 
 	public boolean isCompatible() {
-		if (minversion != -1) {
-			if (Launcher.version.versionlong < minversion)
-				return false;
-		}
-
-		if (maxversion != -1) {
-			return Launcher.version.versionlong <= maxversion;
-		}
-
 		return true;
 	}
 
