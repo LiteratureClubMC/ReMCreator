@@ -1,0 +1,35 @@
+{
+  "args0": [
+     {
+      "type": "input_value",
+      "name": "line",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "tooltips",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": false,
+  "colour": "60",
+  "mcreator": {
+    "toolbox_id": "itemmanagement",
+    "toolbox_init": [
+      "<value name=\"line\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+      "<value name=\"tooltips\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
+  ],
+  "inputs": [
+    "line",
+    "tooltips"
+  ],
+  "dependencies": [
+       {
+           "type": "tooltip",
+           "name": "tooltip"
+       }
+   ]
+  }
+}

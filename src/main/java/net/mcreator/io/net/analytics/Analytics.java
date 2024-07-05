@@ -40,9 +40,7 @@ public class Analytics {
 	}
 
 	public Analytics trackMCreatorLaunch() {
-		trackPageViewImpl(AnalyticsConstants.PAGE_LAUNCH, new HashMap<String, Object>() {{
-			put("sc", "start");
-		}});
+
 		return this;
 	}
 
