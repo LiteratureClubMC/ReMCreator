@@ -17,6 +17,7 @@ public class Elements${JavaModName} implements IFuelHandler, IWorldGenerator {
 	public final List<Supplier<Biome>> biomes = new ArrayList<>();
 	public final List<Supplier<EntityEntry>> entities = new ArrayList<>();
 	public final List<Supplier<Potion>> potions = new ArrayList<>();
+	public final List<Supplier<Enchantment>> enchantments = new ArrayList<>();
 
 	public static Map<ResourceLocation, net.minecraft.util.SoundEvent> sounds = new HashMap<>();
 
@@ -129,6 +130,10 @@ public class Elements${JavaModName} implements IFuelHandler, IWorldGenerator {
 	public List<Supplier<Potion>> getPotions() {
 		return potions;
 	}
+
+	public List<Supplier<Enchantment>> getEnchantments() {
+    		return enchantments;
+    }
 
 	public static class ModElement implements Comparable<ModElement> {
 

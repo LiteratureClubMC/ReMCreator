@@ -165,7 +165,7 @@ public final class MCreatorApplication {
 				L10N.t("dialog.discord_rpc.version") + Launcher.version.getMajorString());
 
 		boolean directLaunch = false;
-		if (launchArguments.size() > 0) {
+		if (!launchArguments.isEmpty()) {
 			String lastArg = launchArguments.get(launchArguments.size() - 1);
 			if (lastArg.length() >= 2 && lastArg.charAt(0) == '"' && lastArg.charAt(lastArg.length() - 1) == '"')
 				lastArg = lastArg.substring(1, lastArg.length() - 1);

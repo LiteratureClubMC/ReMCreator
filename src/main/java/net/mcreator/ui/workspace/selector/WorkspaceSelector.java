@@ -252,7 +252,7 @@ public final class WorkspaceSelector extends JFrame implements DropTargetListene
 	}
 
 	private void reloadTitle() {
-		setTitle("MCreator " + Launcher.version.getMajorString());
+		setTitle("ReMCreator " + Launcher.version.getMajorString() + "By LiteratureClubMC");
 	}
 
 	@Override public void dragEnter(DropTargetDragEvent dtde) {
@@ -407,71 +407,6 @@ public final class WorkspaceSelector extends JFrame implements DropTargetListene
 	}
 
 	private void initWebsitePanel() {
-		CompletableFuture<String[]> newsFuture = new CompletableFuture<>();
-		MCreatorApplication.WEB_API.getWebsiteNews(newsFuture);
-		JLabel nov = new JLabel(
-				"<html>Latest news from MCreator website:<br><div style=\"font-size: 14px;\">Loading news ...</div>");
-		nov.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		newsFuture.whenComplete((news, throwable) -> SwingUtilities.invokeLater(() -> {
-			if (news != null)
-				nov.setText("<html>Latest news from MCreator website:<br><div style=\"font-size: 14px;\">" + StringUtils
-						.abbreviateString(news[0], 43) + "</div>");
-			else
-				nov.setText("");
-			nov.addMouseListener(new MouseAdapter() {
-				@Override public void mouseClicked(MouseEvent en) {
-					if (news != null)
-						DesktopUtils.browseSafe(news[1]);
-				}
-			});
-		}));
-
-		CompletableFuture<String[]> motwFuture = new CompletableFuture<>();
-		MCreatorApplication.WEB_API.getModOfTheWeekData(motwFuture);
-		JLabel lab3 = new JLabel("<html>Mod of the week:<br><font style=\"font-size: 14px;\">Loading data ...");
-		lab3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
-		JLabel lab2 = new JLabel();
-		lab2.setIcon(new EmptyIcon(48, 48));
-		JComponent motwpan = PanelUtils.westAndEastElement(lab3, lab2);
-		motwpan.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		motwFuture.whenComplete((motw, throwable) -> SwingUtilities.invokeLater(() -> {
-			motwpan.addMouseListener(new MouseAdapter() {
-				@Override public void mouseClicked(MouseEvent arg0) {
-					if (motw != null)
-						DesktopUtils.browseSafe(motw[1]);
-				}
-			});
-			if (motw != null)
-				lab3.setText("<html>Mod of the week:<br><font style=\"font-size: 14px;\">" + StringUtils
-						.abbreviateString(motw[0], 33) + "&nbsp;&nbsp;&nbsp;&nbsp;");
-			else
-				lab3.setText("");
-			ImageIcon defaultIcon;
-			if (motw != null && (defaultIcon = WebIO.getIconFromURL(motw[4], 48, 48, null, true)) != null)
-				lab2.setIcon(defaultIcon);
-		}));
-
-		JComponent south = PanelUtils.westAndEastElement(nov, motwpan, 20, 20);
-		south.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-		JComponent hol = PanelUtils.gridElements(1, 1, south);
-		hol.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")));
-
-		JPanel soim;
-		if (!Launcher.version.isSnapshot()) {
-			soim = new ImagePanel(UIRES.get("splash").getImage());
-			((ImagePanel) soim).setFitToWidth(true);
-			((ImagePanel) soim).setOffsetY(-320);
-		} else {
-			soim = new JPanel();
-			soim.setBackground((Color) UIManager.get("MCreatorLAF.DARK_ACCENT"));
-		}
-
-		soim.setLayout(new BorderLayout());
-		soim.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")));
-
-		soim.add(south);
-
-		add("South", soim);
 	}
 
 	@NotNull public RecentWorkspaces getRecentWorkspaces() {

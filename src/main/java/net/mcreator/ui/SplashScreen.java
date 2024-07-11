@@ -36,9 +36,7 @@ public class SplashScreen extends JWindow {
 	public SplashScreen() {
 		Font splashFont = new Font("Sans-Serif", Font.PLAIN, 13);
 
-		JPanel imagePanel = (Launcher.version != null && Launcher.version.isSnapshot()) ?
-				new JPanel() :
-				new ImagePanel(UIRES.get("splash").getImage());
+		JPanel imagePanel = new ImagePanel(UIRES.get("splash").getImage());
 		imagePanel.setLayout(null);
 		imagePanel.setBackground(new Color(50, 50, 50));
 

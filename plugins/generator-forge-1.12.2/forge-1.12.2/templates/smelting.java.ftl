@@ -3,9 +3,9 @@
 
 package ${package}.item.crafting;
 
-@Elements${JavaModName}.ModElement.Tag public class Recipe${name} extends Elements${JavaModName}.ModElement{
+@Elements${JavaModName}.ModElement.Tag public class SmeltingRecipe${name} extends Elements${JavaModName}.ModElement{
 
-	public Recipe${name} (Elements${JavaModName} instance) {
+	public SmeltingRecipe${name} (Elements${JavaModName} instance) {
 		super(instance, ${data.getModElement().getSortID()});
 	}
 

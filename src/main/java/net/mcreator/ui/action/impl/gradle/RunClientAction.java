@@ -18,7 +18,6 @@
 
 package net.mcreator.ui.action.impl.gradle;
 
-import net.mcreator.minecraft.BedrockUtils;
 import net.mcreator.preferences.PreferencesManager;
 import net.mcreator.ui.action.ActionRegistry;
 import net.mcreator.ui.init.L10N;
@@ -46,8 +45,6 @@ public class RunClientAction extends GradleAction {
 
 				if (actionRegistry.getMCreator().getGeneratorConfiguration().getGradleTaskFor("run_client")
 						.equals("@bedrock_run_client")) {
-					BedrockUtils
-							.reinstallAddon(actionRegistry.getMCreator(), actionRegistry.getMCreator().getWorkspace());
 				} else {
 					SwingUtilities.invokeLater(() -> actionRegistry.getMCreator().getGradleConsole()
 							.exec(actionRegistry.getMCreator().getGeneratorConfiguration()

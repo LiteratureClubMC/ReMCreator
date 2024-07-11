@@ -170,22 +170,21 @@ public final class MCreator extends JFrame implements IWorkspaceProvider, IGener
 			bgimages = Arrays.stream(bgfiles).filter(e -> e.getName().endsWith(".png")).collect(Collectors.toList());
 		}
 
-		Image bgimage = null;
-		if (bgimages.size() > 0) {
+		Image bgimage = UIRES.get("splash").getImage();
+		if (!bgimages.isEmpty()) {
 			try {
 				bgimage = ImageIO.read(ListUtils.getRandomItem(bgimages));
-				float avg = ImageUtils.getAverageLuminance(ImageUtils.toBufferedImage(bgimage));
-				if (avg > 0.15) {
-					avg = (float) Math.min(avg * 1.7, 0.85);
-					bgimage = ImageUtils.drawOver(new ImageIcon(bgimage), new ImageIcon(ImageUtils
-							.emptyImageWithSize(bgimage.getWidth(this), bgimage.getHeight(this),
-									new Color(0.12f, 0.12f, 0.12f, avg)))).getImage();
-				}
 			} catch (IOException e) {
 				LOG.warn("Failed to load background image", e);
 			}
 		}
-
+		float avg = ImageUtils.getAverageLuminance(ImageUtils.toBufferedImage(bgimage));
+		if (avg > 0.15) {
+			avg = (float) Math.min(avg * 1.7, 0.85);
+			bgimage = ImageUtils.drawOver(new ImageIcon(bgimage), new ImageIcon(ImageUtils
+					.emptyImageWithSize(bgimage.getWidth(this), bgimage.getHeight(this),
+							new Color(0.12f, 0.12f, 0.12f, avg)))).getImage();
+		}
 		if (bgimage != null) {
 			mpan = new ImagePanel(bgimage);
 			((ImagePanel) mpan).setKeepRatio(true);

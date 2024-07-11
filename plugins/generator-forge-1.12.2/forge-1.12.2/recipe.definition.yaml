@@ -1,10 +1,14 @@
 templates:
   - template: smelting.java.ftl
-    name: "@SRCROOT/@BASEPACKAGEPATH/item/crafting/Recipe@NAME.java"
+    name: "@SRCROOT/@BASEPACKAGEPATH/item/crafting/SmeltingRecipe@NAME.java"
     condition: "recipeType %= Smelting"
     deleteWhenConditionFalse: true
   - template: json/recipe.json.ftl
     writer: json
     name: "@MODASSETSROOT/recipes/@registryname.json"
     condition: "recipeType %= Crafting"
+    deleteWhenConditionFalse: true
+  - template: brewing.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/item/crafting/BrewingRecipe@NAME.java"
+    condition: "recipeType %= Brewing"
     deleteWhenConditionFalse: true

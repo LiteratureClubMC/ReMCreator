@@ -2,7 +2,6 @@ plugins {
     id "java"
     id "idea"
     id "de.undercouch.download" version "5.6.0"
-    id 'edu.sc.seis.launch4j' version '3.0.5'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.8'
 }
 
@@ -86,18 +85,8 @@ test {
     maxHeapSize = "1024m"
 }
 
-jar {
-    archiveFileName = 'mcreator.jar'
-    manifest {
-        attributes(
-                'Main-Class': 'net.mcreator.Launcher',
-                'MCreator-Version': project.mcreatorconf.getProperty('mcreator'),
-                'Build-Date': new Date().format('wwuHH')
-        )
-    }
-}
-
-task runMCreator(type: JavaExec, dependsOn: jar) {
+tasks.register('runMCreator', JavaExec) {
+    dependsOn jar
     classpath += sourceSets.main.runtimeClasspath
     main = "net.mcreator.Launcher"
 }

@@ -82,7 +82,7 @@ public class StatusBar extends JPanel {
 		info.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		left.add(info);
 		left.add(new JEmptyBox(3, 3));
-
+		/*
 		JLabel donate = new JLabel(UIRES.get("donate"));
 		donate.addMouseListener(new MouseAdapter() {
 			@Override public void mouseClicked(MouseEvent mouseEvent) {
@@ -92,6 +92,7 @@ public class StatusBar extends JPanel {
 		donate.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		left.add(donate);
 		left.add(new JEmptyBox(3, 3));
+		*/ // For Future
 
 		JLabel preferences = new JLabel(UIRES.get("settings"));
 		preferences.addMouseListener(new MouseAdapter() {

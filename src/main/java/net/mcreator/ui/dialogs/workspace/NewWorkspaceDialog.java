@@ -51,10 +51,6 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 		super(w, L10N.t("dialog.new_workspace.title"), true);
 
 		AbstractWorkspacePanel forgeWorkspacePanel = new ForgeWorkspacePanel(this);
-		AbstractWorkspacePanel fabricWorkspacePanel = new FabricWorkspacePanel(this);
-		AbstractWorkspacePanel spigotWorkspacePanel = new SpigotWorkspacePanel(this);
-		AbstractWorkspacePanel datapackWorkspacePanel = new DatapackWorkspacePanel(this);
-		AbstractWorkspacePanel addonWorkspacePanel = new AddonWorkspacePanel(this);
 
 		JPanel buttons = new JPanel();
 
@@ -93,10 +89,6 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 				.browseSafe(MCreatorApplication.SERVER_DOMAIN + "/wiki/create-new-workspace-window"));
 
 		workspacePanels.add("forge", PanelUtils.pullElementUp(forgeWorkspacePanel));
-		workspacePanels.add("fabric", PanelUtils.pullElementUp(fabricWorkspacePanel));
-		workspacePanels.add("spigot", PanelUtils.pullElementUp(spigotWorkspacePanel));
-		workspacePanels.add("datapack", PanelUtils.pullElementUp(datapackWorkspacePanel));
-		workspacePanels.add("addon", PanelUtils.pullElementUp(addonWorkspacePanel));
 
 		JComponent center = PanelUtils.centerInPanel(workspacePanels);
 		center.setBorder(
@@ -126,52 +118,7 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 			cardLayout.show(workspacePanels, "forge");
 		});
 
-		JToggleButton fabric = new JToggleButton(L10N.t("dialog.new_workspace.fabric.toggle"),
-				UIRES.get("16px.fabric"));
-		fabric.setHorizontalAlignment(SwingConstants.LEFT);
-		fabric.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),
-				BorderFactory.createEmptyBorder(8, 8, 8, 30)));
-		buttonGroup.add(fabric);
-		fabric.addActionListener(e -> {
-			current = fabricWorkspacePanel;
-			cardLayout.show(workspacePanels, "fabric");
-		});
 
-		JToggleButton spigot = new JToggleButton(L10N.t("dialog.new_workspace.spigot.toggle"),
-				UIRES.get("16px.spigot"));
-		spigot.setHorizontalAlignment(SwingConstants.LEFT);
-		spigot.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),
-				BorderFactory.createEmptyBorder(8, 8, 8, 30)));
-		buttonGroup.add(spigot);
-		spigot.addActionListener(e -> {
-			current = spigotWorkspacePanel;
-			cardLayout.show(workspacePanels, "spigot");
-		});
-
-		JToggleButton datapack = new JToggleButton(L10N.t("dialog.new_workspace.datapack.toggle"),
-				UIRES.get("16px.datapack"));
-		datapack.setHorizontalAlignment(SwingConstants.LEFT);
-		datapack.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),
-				BorderFactory.createEmptyBorder(8, 8, 8, 30)));
-		buttonGroup.add(datapack);
-		datapack.addActionListener(e -> {
-			current = datapackWorkspacePanel;
-			cardLayout.show(workspacePanels, "datapack");
-		});
-
-		JToggleButton addon = new JToggleButton(L10N.t("dialog.new_workspace.addon.toggle"), UIRES.get("16px.bedrock"));
-		addon.setHorizontalAlignment(SwingConstants.LEFT);
-		addon.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, (Color) UIManager.get("MCreatorLAF.LIGHT_ACCENT")),
-				BorderFactory.createEmptyBorder(8, 8, 8, 30)));
-		buttonGroup.add(addon);
-		addon.addActionListener(e -> {
-			current = addonWorkspacePanel;
-			cardLayout.show(workspacePanels, "addon");
-		});
 
 		JLabel wt = L10N.label("dialog.new_workspace.type");
 		ComponentUtils.deriveFont(wt, 10);
@@ -180,34 +127,10 @@ public class NewWorkspaceDialog extends MCreatorDialog {
 
 		workspaceType.add(wt);
 		workspaceType.add(forge);
-		workspaceType.add(fabric);
-		workspaceType.add(spigot);
-		workspaceType.add(addon);
-		workspaceType.add(datapack);
 
 		if (Generator.GENERATOR_CACHE.values().stream()
 				.noneMatch(gc -> gc.getGeneratorFlavor() == GeneratorFlavor.FORGE)) {
 			disableType(forge);
-		}
-
-		if (Generator.GENERATOR_CACHE.values().stream()
-				.noneMatch(gc -> gc.getGeneratorFlavor() == GeneratorFlavor.FABRIC)) {
-			disableType(fabric);
-		}
-
-		if (Generator.GENERATOR_CACHE.values().stream()
-				.noneMatch(gc -> gc.getGeneratorFlavor() == GeneratorFlavor.SPIGOT)) {
-			disableType(spigot);
-		}
-
-		if (Generator.GENERATOR_CACHE.values().stream()
-				.noneMatch(gc -> gc.getGeneratorFlavor() == GeneratorFlavor.ADDON)) {
-			disableType(addon);
-		}
-
-		if (Generator.GENERATOR_CACHE.values().stream()
-				.noneMatch(gc -> gc.getGeneratorFlavor() == GeneratorFlavor.DATAPACK)) {
-			disableType(datapack);
 		}
 
 		JComponent wrapPan = PanelUtils.northAndCenterElement(workspaceType, new JEmptyBox());

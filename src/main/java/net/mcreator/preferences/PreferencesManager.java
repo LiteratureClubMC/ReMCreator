@@ -45,7 +45,7 @@ public class PreferencesManager {
 				PREFERENCES = gson.fromJson(FileIO.readFileToString(preferencesFile), PreferencesData.class);
 				if (PREFERENCES == null)
 					throw new NullPointerException("Preferences are null!");
-				LOG.debug("Loading preferences from " + preferencesFile);
+				LOG.debug("Loading preferences from {}", preferencesFile);
 			} catch (Exception e) {
 				LOG.error("Failed to load preferences. Reloading defaults!", e);
 				storePreferences(new PreferencesData());

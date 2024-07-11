@@ -57,8 +57,6 @@ public class MainMenuBar extends JMenuBar {
 		socialButtons.setBorder(BorderFactory.createEmptyBorder(3, 29, 7, 0));
 		logo.add(socialButtons);
 		logo.addSeparator();
-		logo.add(mcreator.actionRegistry.donate);
-		logo.addSeparator();
 		logo.add(mcreator.actionRegistry.mcreatorPublish);
 
 		add(logo);

@@ -32,7 +32,6 @@ public class PreferencesData {
 	@PreferencesSection public BlocklySettings blockly = new BlocklySettings();
 	@PreferencesSection public IDESettings ide = new IDESettings();
 	@PreferencesSection public GradleSettings gradle = new GradleSettings();
-	@PreferencesSection public BedrockSettings bedrock = new BedrockSettings();
 
 	public HiddenPreferences hidden = new HiddenPreferences();
 
@@ -107,11 +106,6 @@ public class PreferencesData {
 		@PreferencesEntry public boolean offline = false;
 	}
 
-	public static class BedrockSettings {
-
-		@PreferencesEntry public boolean silentReload = false;
-
-	}
 
 	public static class HiddenPreferences {
 		public WorkspaceIconSize workspaceIconSize = WorkspaceIconSize.LARGE;

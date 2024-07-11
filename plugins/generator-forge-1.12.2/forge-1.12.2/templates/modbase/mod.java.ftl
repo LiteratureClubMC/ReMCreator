@@ -88,6 +88,10 @@ package ${package};
 		elements.registerSounds(event);
 	}
 
+    @SubscribeEvent public void registerEnchantments(RegistryEvent.Register<Enchantment> event) {
+    	event.getRegistry().registerAll(elements.getEnchantments().stream().map(Supplier::get).toArray(Enchantment[]::new));
+    }
+
 	@SubscribeEvent @SideOnly(Side.CLIENT) public void registerModels(ModelRegistryEvent event) {
 		elements.getElements().forEach(element -> element.registerModels(event));
 	}
