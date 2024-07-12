@@ -54,6 +54,7 @@ public final class ModElementTypeRegistry {
 		put(ModElementType.POTION, new ModTypeRegistration<>('z', 23, PotionGUI::new, Potion.class));
 		put(ModElementType.ENCHANTMENT, new ModTypeRegistration<>('m', 29, EnchantmentGUI::new, Enchantment.class));
 		put(ModElementType.CODE, new ModTypeRegistration<>(null, 24, CustomElementGUI::new, CustomElement.class));
+		//put(ModElementType.AT, new ModTypeRegistration<>(null, 33, AccessTransformerGUI::new, AccessTransformer.class));
 		put(ModElementType.TAG, new ModTypeRegistration<>('j', 25, TagGUI::new, Tag.class));
 		put(ModElementType.LOOTTABLE, new ModTypeRegistration<>('q', 26, LootTableGUI::new, LootTable.class));
 		put(ModElementType.FUNCTION, new ModTypeRegistration<>('u', 27, FunctionGUI::new, Function.class));

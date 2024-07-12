@@ -23,6 +23,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import net.mcreator.element.GeneratableElement;
 import net.mcreator.element.ModElementType;
+import net.mcreator.element.types.AccessTransformer;
 import net.mcreator.element.types.CustomElement;
 import net.mcreator.generator.Generator;
 import net.mcreator.generator.GeneratorTemplate;
@@ -77,6 +78,9 @@ public class ModElementManager {
 	GeneratableElement loadGeneratableElement(ModElement element) {
 		if (element.getType() == ModElementType.CODE) {
 			return new CustomElement(element);
+		}
+		if (element.getType() == ModElementType.AT) {
+			return new AccessTransformer(element);
 		}
 
 		if (cache.containsKey(element))

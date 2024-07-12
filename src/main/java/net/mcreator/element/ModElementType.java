@@ -74,6 +74,7 @@ public enum ModElementType {
 	@SerializedName("enchantment") ENCHANTMENT(BaseType.ENCHANTMENT, RecipeType.NONE),
 
 	@SerializedName("code") CODE(BaseType.OTHER, RecipeType.NONE),
+	@SerializedName("at") AT(BaseType.OTHER, RecipeType.NONE),
 
 	@SerializedName("tag") TAG(BaseType.DATAPACK, RecipeType.NONE),
 
