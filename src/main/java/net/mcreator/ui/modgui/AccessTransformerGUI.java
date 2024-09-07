@@ -19,7 +19,6 @@
 package net.mcreator.ui.modgui;
 
 import net.mcreator.element.GeneratableElement;
-import net.mcreator.element.types.CustomElement;
 import net.mcreator.generator.GeneratorTemplate;
 import net.mcreator.ui.MCreator;
 import net.mcreator.ui.ide.CodeEditorView;
@@ -45,7 +44,7 @@ public class AccessTransformerGUI extends ModElementGUI<AccessTransformer> {
 
 		// this element was just created, generate its file
 		if (!editingMode) {
-			GeneratableElement element = new CustomElement(modElement);
+			GeneratableElement element = new AccessTransformer(modElement);
 
 			// generate mod element code
 			mcreator.getGenerator().generateElement(element);
