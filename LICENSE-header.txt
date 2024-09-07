@@ -1,6 +1,8 @@
 MCreator (https://mcreator.net/)
+ReMCreator (https://github.com/LiteratureClubMC/ReMCreator)
 Copyright (C) 2012-2020, Pylo
 Copyright (C) 2020-2021, Pylo, opensource contributors
+Copyright (C) 2024-2024, LCMC, NotMonika
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

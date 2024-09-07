@@ -13,7 +13,6 @@ A clear and concise description of what the bug is.
 
 **Details**
  - MCreator version: [2021.1 / master branch / ...]
- - Generator type: [forge-1.15.2 / forge-1.16.5 / ...]
  - OS: [Windows / Ubuntu / Mac OS / ...]
 
 **Steps To Reproduce**
