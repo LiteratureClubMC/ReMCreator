@@ -63,7 +63,6 @@ public class ActionRegistry {
 	public final BasicAction mcreatorWebsite;
 	public final BasicAction mcreatorCommunity;
 	public final BasicAction mcreatorPublish;
-	public final BasicAction donate;
 
 	// General actions
 	public final BasicAction preferences;
@@ -300,8 +299,6 @@ public class ActionRegistry {
 				MCreatorApplication.SERVER_DOMAIN + "/support/knowledgebase");
 		this.setCreativeTabItemOrder = new EditTabOrderAction(this);
 		this.injectDefaultTags = InjectTagsTool.getAction(this);
-		this.donate = new VisitURIAction(this, L10N.t("action.donate"), MCreatorApplication.SERVER_DOMAIN + "/donate")
-				.setIcon(UIRES.get("donate"));
 		this.openJavaEditionFolder = new MinecraftFolderActions.OpenJavaEditionFolder(this);
 		this.openBedrockEditionFolder = new MinecraftFolderActions.OpenBedrockEditionFolder(this);
 

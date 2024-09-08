@@ -221,9 +221,6 @@ public class ProcedureSelector extends JPanel {
 							refreshList();
 							setSelectedProcedure(modName);
 						});
-						mcreator.getApplication().getAnalytics().async(() -> mcreator.getApplication().getAnalytics()
-								.trackEvent(AnalyticsConstants.EVENT_NEW_MOD_ELEMENT,
-										ModElementType.PROCEDURE.getReadableName(), null, null));
 					}
 				}
 			});

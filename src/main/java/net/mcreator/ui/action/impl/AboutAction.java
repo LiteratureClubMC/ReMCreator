@@ -46,16 +46,15 @@ public class AboutAction extends BasicAction {
 
 	public static void showDialog(Window parent) {
 		Object[] options = { L10N.t("dialog.about.option.website"), L10N.t("dialog.about.option.support"),
-				L10N.t("dialog.about.option.eula"), L10N.t("dialog.about.option.third_party_licenses"),
-				L10N.t("dialog.about.option.donate") };
+				L10N.t("dialog.about.option.eula"), L10N.t("dialog.about.option.third_party_licenses")};
 		int n = JOptionPane.showOptionDialog(parent,
 				L10N.t("dialog.about.message", Launcher.version.major, Launcher.version.getFullString(),
-						MCreatorApplication.WEB_API.getUpdateInfo().getLatestMajor(), GeneratableElement.formatVersion,
+						"", GeneratableElement.formatVersion,
 						OS.getSystemBits(), OS.getBundledJVMBits()), L10N.t("dialog.about.title"),
 				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
 				new ImageIcon(generateMCreatorLogoForAboutDialog()), options, options[0]);
 		if (n == 0) {
-			DesktopUtils.browseSafe(MCreatorApplication.SERVER_DOMAIN + "/");
+			DesktopUtils.browseSafe("https://github.com/LiteratureClubMC/ReMCreator");
 		} else if (n == 1) {
 			DesktopUtils.browseSafe(MCreatorApplication.SERVER_DOMAIN + "/support");
 		} else if (n == 2) {
@@ -67,8 +66,6 @@ public class AboutAction extends BasicAction {
 				JOptionPane.showMessageDialog(parent, L10N.t("dialog.about.third_party.message"),
 						L10N.t("dialog.about.third_party.title"), JOptionPane.INFORMATION_MESSAGE);
 			}
-		} else if (n == 4) {
-			DesktopUtils.browseSafe(MCreatorApplication.SERVER_DOMAIN + "/donate");
 		}
 	}
 

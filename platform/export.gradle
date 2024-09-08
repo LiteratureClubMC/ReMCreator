@@ -34,11 +34,8 @@ task exportReleasePreTask(type: DefaultTask, dependsOn: testClasses) {
     }
 }
 tasks.register('exportZip', Zip) {
-    //压缩包名称
     archiveName "export.zip"
-    //压缩包输出到的位置
     destinationDir file('build/')
-    //要压缩的文件夹
     from('build/export')
 }
 

@@ -41,12 +41,9 @@ import com.google.gson.GsonBuilder;
 import net.mcreator.Launcher;
 import net.mcreator.io.FileIO;
 import net.mcreator.io.UserFolderManager;
-import net.mcreator.io.net.WebIO;
 import net.mcreator.ui.MCreatorApplication;
 import net.mcreator.ui.action.impl.AboutAction;
-import net.mcreator.ui.component.ImagePanel;
 import net.mcreator.ui.component.JEmptyBox;
-import net.mcreator.ui.component.SocialButtons;
 import net.mcreator.ui.component.util.ComponentUtils;
 import net.mcreator.ui.component.util.PanelUtils;
 import net.mcreator.ui.dialogs.FileDialogs;
@@ -57,8 +54,6 @@ import net.mcreator.ui.init.UIRES;
 import net.mcreator.ui.vcs.VCSSetupDialogs;
 import net.mcreator.util.DesktopUtils;
 import net.mcreator.util.ListUtils;
-import net.mcreator.util.StringUtils;
-import net.mcreator.util.image.EmptyIcon;
 import net.mcreator.util.image.ImageUtils;
 import net.mcreator.vcs.CloneWorkspace;
 import net.mcreator.vcs.VCSInfo;
@@ -80,7 +75,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.CompletableFuture;
 
 public final class WorkspaceSelector extends JFrame implements DropTargetListener {
 
@@ -176,9 +170,6 @@ public final class WorkspaceSelector extends JFrame implements DropTargetListene
 
 		ComponentUtils.deriveFont(version, 18);
 		version.setForeground((Color) UIManager.get("MCreatorLAF.GRAY_COLOR"));
-		SocialButtons socialButtons = new SocialButtons();
-		socialButtons.setBorder(BorderFactory.createEmptyBorder(2, 8, 6, 0));
-		logoPanel.add("Center", socialButtons);
 		logoPanel.add("South", version);
 
 		logoPanel.setBorder(BorderFactory.createEmptyBorder(45, 26 + 25, 0, 10));
@@ -186,20 +177,6 @@ public final class WorkspaceSelector extends JFrame implements DropTargetListene
 
 		JPanel southcenter = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		southcenter.setBorder(BorderFactory.createEmptyBorder(0, 0, 26, 60 - 1));
-
-		JLabel donate = L10N.label("dialog.workspace_selector.donate");
-		donate.setIcon(UIRES.get("donate"));
-		donate.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		ComponentUtils.deriveFont(donate, 13);
-		donate.setForeground((Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR"));
-		donate.setBorder(BorderFactory.createEmptyBorder());
-		donate.setHorizontalTextPosition(JLabel.LEFT);
-		donate.addMouseListener(new MouseAdapter() {
-			@Override public void mouseClicked(MouseEvent mouseEvent) {
-				DesktopUtils.browseSafe(MCreatorApplication.SERVER_DOMAIN + "/donate");
-			}
-		});
-		southcenter.add(donate);
 
 		southcenter.add(new JEmptyBox(7, 5));
 

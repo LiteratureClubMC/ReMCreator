@@ -20,7 +20,6 @@ package net.mcreator.ui.dialogs;
 
 import net.mcreator.element.ModElementType;
 import net.mcreator.element.ModElementTypeRegistry;
-import net.mcreator.io.net.analytics.AnalyticsConstants;
 import net.mcreator.java.JavaConventions;
 import net.mcreator.minecraft.RegistryNameFixer;
 import net.mcreator.ui.MCreator;
@@ -69,8 +68,6 @@ public class NewModElementDialog {
 			ModElementGUI<?> newGUI = ModElementTypeRegistry.REGISTRY.get(type).getModElement(mcreator, element, false);
 			if (newGUI != null) {
 				newGUI.showView();
-				mcreator.getApplication().getAnalytics().async(() -> mcreator.getApplication().getAnalytics()
-						.trackEvent(AnalyticsConstants.EVENT_NEW_MOD_ELEMENT, type.getReadableName(), null, null));
 			}
 		}
 	}

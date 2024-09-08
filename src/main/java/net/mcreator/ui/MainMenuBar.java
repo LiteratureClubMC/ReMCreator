@@ -18,7 +18,6 @@
 
 package net.mcreator.ui;
 
-import net.mcreator.ui.component.SocialButtons;
 import net.mcreator.ui.component.util.ComponentUtils;
 import net.mcreator.ui.ide.CodeEditorView;
 import net.mcreator.ui.init.L10N;
@@ -51,12 +50,6 @@ public class MainMenuBar extends JMenuBar {
 		logo.setMnemonic('M');
 		logo.setIcon(new ImageIcon(ImageUtils.resizeAA(UIRES.get("icon").getImage(), 14, 14)));
 
-		logo.add(mcreator.actionRegistry.mcreatorWebsite);
-		logo.add(mcreator.actionRegistry.mcreatorCommunity);
-		SocialButtons socialButtons = new SocialButtons();
-		socialButtons.setBorder(BorderFactory.createEmptyBorder(3, 29, 7, 0));
-		logo.add(socialButtons);
-		logo.addSeparator();
 		logo.add(mcreator.actionRegistry.mcreatorPublish);
 
 		add(logo);
@@ -242,8 +235,6 @@ public class MainMenuBar extends JMenuBar {
 		help.add(mcreator.actionRegistry.knowledgeBase);
 		help.addSeparator();
 		help.add(mcreator.actionRegistry.showShortcuts);
-		help.addSeparator();
-		help.add(mcreator.actionRegistry.donate);
 		help.addSeparator();
 		help.add(mcreator.actionRegistry.aboutMCreator);
 		help.setMnemonic('H');
