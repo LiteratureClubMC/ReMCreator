@@ -90,3 +90,4 @@ tasks.register('runMCreator', JavaExec) {
     classpath += sourceSets.main.runtimeClasspath
     main = "net.mcreator.Launcher"
 }
+apply from:"platform/export.gradle"

@@ -25,6 +25,7 @@ import net.mcreator.ui.action.impl.gradle.GradleAction;
 import net.mcreator.ui.dialogs.FileDialogs;
 import net.mcreator.ui.init.L10N;
 import net.mcreator.ui.init.UIRES;
+import net.mcreator.util.image.EmptyIcon;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
@@ -83,7 +84,7 @@ public class ExportWorkspaceForDistAction extends GradleAction {
 				int n = JOptionPane
 						.showOptionDialog(actionRegistry.getMCreator(), L10N.t("dialog.workspace.export.message"),
 								L10N.t("dialog.workspace.export.title"), JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.PLAIN_MESSAGE, UIRES.get("icon"), options2, options2[0]);
+								JOptionPane.PLAIN_MESSAGE, new EmptyIcon(0,0), options2, options2[0]);
 				if (n == 1 || n == JOptionPane.CLOSED_OPTION) {
 					return;
 				}
