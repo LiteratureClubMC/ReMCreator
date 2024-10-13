@@ -43,7 +43,7 @@ jar {
     archiveFileName = 'mcreator.jar'
     manifest {
         attributes(
-                'Main-Class': 'net.mcreator.Launcher',
+                'Main-Class': 'rip.sayori.rmcr.Launcher',
                 'MCreator-Version': project.mcreatorconf.getProperty('mcreator')
         )
     }

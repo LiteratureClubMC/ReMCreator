@@ -17,7 +17,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="net.mcreator" level="ALL"/>
+        <Logger name="rip.sayori.rmcr" level="ALL"/>
         <Root level="ALL">
             <AppenderRef ref="CONSOLE" level="ALL"/>
             <AppenderRef ref="ROLLINGFILE" level="ALL"/>

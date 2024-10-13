@@ -3,11 +3,13 @@ plugins {
     id "idea"
     id "de.undercouch.download" version "5.6.0"
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.8'
+    id "org.openjfx.javafxplugin" version "0.1.0"
 }
 
 repositories {
     maven{ url 'https://maven.aliyun.com/repository/public'}
     maven{ url 'https://maven.aliyun.com/repository/google'}
+    maven{ url 'https://maven.cleanroommc.com' }
     maven {
         url "https://repo.gradle.org/gradle/libs-releases-local/"
     }
@@ -17,17 +19,17 @@ repositories {
 project.ext.mcreatorconf = new Properties()
 file('src/main/resources/mcreator.conf').withInputStream { project.mcreatorconf.load(it) }
 
-group = 'net.mcreator'
+group = 'rip.sayori.rmcr'
 version = project.mcreatorconf.getProperty('mcreator')
 javadoc.source = sourceSets.main.allJava
 compileJava.options.encoding = 'UTF-8'
 compileJava.options.debug
-tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 
 // workaround for IDEA-265203
 System.setProperty("user.dir", projectDir.toString())
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 idea {
     module {
@@ -36,13 +38,16 @@ idea {
                        file("gradle"), file("jdk"), file("license"), file("logs")] as Set<File>
     }
 }
-
+javafx {
+    version = "11"
+    modules = ['javafx.base',"javafx.controls","javafx.fxml","javafx.graphics","javafx.media","javafx.swing","javafx.web"]
+}
 dependencies {
     // from lib folder
     implementation fileTree(dir: 'lib', include: ['*.jar'])
 
     // from maven
-    implementation group: 'commons-io', name: 'commons-io', version: '2.7'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.14.0'
     // 2.7+ problem with : in filenames: NTFS ADS separator
     implementation group: 'foxtrot', name: 'foxtrot-core', version: '4.0'
     implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.31'
@@ -53,13 +58,13 @@ dependencies {
     implementation group: 'com.esotericsoftware.yamlbeans', name: 'yamlbeans', version: '1.17'
     implementation group: 'com.fifesoft', name: 'rsyntaxtextarea', version: '3.1.2'
     implementation group: 'com.fifesoft', name: 'autocomplete', version: '3.1.1'
-    implementation(group: 'com.fifesoft', name: 'languagesupport', version: '3.1.1') { dep ->
+    implementation(group: 'com.fifesoft', name: 'languagesupport', version: '3.3.0') { dep ->
         dep.exclude group: 'org.mozilla', module: 'rhino'
     }
     implementation group: 'org.reflections', name: 'reflections', version: '0.9.9' // https://github.com/ronmamo/reflections/issues/81
     implementation group: 'de.javagl', name: 'obj', version: '0.3.0'
     implementation group: 'com.univocity', name: 'univocity-parsers', version: '2.9.1'
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
     implementation group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
     implementation group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.11.0.202103091610-r'
     implementation group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.30'
@@ -71,6 +76,7 @@ dependencies {
     implementation group: 'com.atlassian.commonmark', name: 'commonmark-ext-gfm-tables', version: '0.16.1'
 
     implementation group: 'club.minnced', name: 'java-discord-rpc', version: '2.0.2'
+    implementation 'zone.rong:imaginebreaker:2.1'
 
     // for annotations
     compileOnly group: 'org.jetbrains', name: 'annotations', version: '20.1.0'
@@ -88,6 +94,6 @@ test {
 tasks.register('runMCreator', JavaExec) {
     dependsOn jar
     classpath += sourceSets.main.runtimeClasspath
-    main = "net.mcreator.Launcher"
+    mainClass = "rip.sayori.rmcr.Launcher"
 }
-apply from:"platform/export.gradle"
+//apply from:"platform/export.gradle"

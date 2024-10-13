@@ -4,4 +4,4 @@
 export CLASSPATH="./lib/mcreator.jar:./lib/*"
 
 # 启动Java程序，并且指定--add-opens选项
-java net.mcreator.Launcher
+java rip.sayori.rmcr.Launcher

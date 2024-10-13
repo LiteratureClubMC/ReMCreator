@@ -1,0 +1,81 @@
+plugins {
+	id "com.crystaelix.loom" version "0a007f07"
+	id "eclipse"
+}
+
+repositories {
+	// Add repositories to retrieve artifacts from in here.
+	mavenCentral()
+	flatDir {
+		dirs "libs"
+	}
+	maven {
+		url = "https://maven.outlands.top/releases/"
+	}
+	maven {
+		url = "https://repo.cleanroommc.com/releases/"
+		metadataSources {
+			mavenPom()
+			ignoreGradleMetadataRedirection()
+		}
+	}
+	maven {
+		url = "https://repo.cleanroommc.com/snapshots/"
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://cursemaven.com/"
+			}
+		}
+		filter {
+			includeGroup "curse.maven"
+		}
+	}
+}
+
+version = mod_version
+group = mod_group
+archivesBaseName = "modid"
+
+java {
+	toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = "UTF-8"
+}
+
+loom {
+	legacyForge {
+	}
+	interfaceInjection.enableDependencyInterfaceInjection = false
+	runs {
+		configureEach {
+			property "fabric.log.console.level", "debug"
+			environmentVariable "MC_VERSION", "1.12.2"
+		}
+		client {
+			programArg "--username=Dev"
+			vmArg "-Xmx7G"
+		}
+		server {
+			vmArg "-Xmx3G"
+		}
+	}
+	generatedIntermediateMappings()
+}
+
+dependencies {
+	// Use an updated version of log4j
+	implementation "org.apache.logging.log4j:log4j-core:2.24.1"
+
+	minecraft "com.mojang:minecraft:1.12.2"
+	mappings "de.oceanlabs.mcp:mcp_snapshot:20171003-1.12"
+	cleanroom "com.cleanroommc:cleanroom:${generator.getGeneratorBuildFileVersion()}"
+}
+
+tasks.withType(net.fabricmc.loom.task.RunGameTask).configureEach {
+	javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
+}
+
