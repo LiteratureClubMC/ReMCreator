@@ -55,10 +55,17 @@ import org.gradle.tooling.model.eclipse.EclipseProject;
 import rip.sayori.rmcr.gradle.GradleUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 public class ProjectJarManager extends JarManager {
 
@@ -70,7 +77,6 @@ public class ProjectJarManager extends JarManager {
 		if (generator.getGeneratorConfiguration().getGeneratorFlavor().getBaseLanguage()
 				== GeneratorFlavor.BaseLanguage.JAVA)
 			try {
-				addCurrentJreClassFileSource();
 				addClassFileSource(getJVMLibraryInfo());
 			} catch (IOException e) {
 				LOG.warn("Failed to load JVM to JAR manager", e);
@@ -92,7 +98,11 @@ public class ProjectJarManager extends JarManager {
 		final LibraryInfo info;
 
 		if (classesArchive.getName().endsWith(".jmod")) {
-			info = new JModLibraryInfo(classesArchive);
+			try {
+				info = new JarLibraryInfo(prepareModule(classesArchive));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		} else {
 			info = new JarLibraryInfo(classesArchive);
 		}
@@ -112,6 +122,30 @@ public class ProjectJarManager extends JarManager {
 				return file;
 		}
 		return null;
+	}
+	public static synchronized File prepareModule(File modulePath) throws IOException {
+		File tgt = new File(Files.createTempFile("jmod-rmcr_",".jar").toUri());
+		tgt.deleteOnExit();
+		try{
+			ZipFile moduleFile = new ZipFile(modulePath);
+			ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tgt));
+			for(Enumeration<? extends ZipEntry> enums = moduleFile.entries(); enums.hasMoreElements();){
+				ZipEntry entry = enums.nextElement();
+				String name = entry.getName();
+				if((name.startsWith("classes") && !name.contains("module-info")) || name.startsWith("resources")){
+					zipOutputStream.putNextEntry(new ZipEntry(name.substring(name.indexOf('/') + 1)));
+					InputStream in = moduleFile.getInputStream(entry);
+					while(in.available() > 0)
+						zipOutputStream.write(in.read());
+					zipOutputStream.flush();
+				}
+			}
+			zipOutputStream.close();
+		}
+		catch(Exception e){
+			LOG.error(e.getLocalizedMessage());
+		}
+		return tgt;
 	}
 	public ProjectJarManager(Generator generator, List<GeneratorGradleCache.ClasspathEntry> classPathEntries)
 			throws GradleCacheImportFailedException {
@@ -174,7 +208,7 @@ public class ProjectJarManager extends JarManager {
 	private void loadExternalDependency(GeneratorGradleCache.ClasspathEntry classpathEntry)
 			throws GradleCacheImportFailedException {
 		if (!new File(classpathEntry.getLib()).exists()) {
-			LOG.warn("Failed to load cached library " + classpathEntry.getLib());
+			LOG.warn("Failed to load cached library {}", classpathEntry.getLib());
 			throw new GradleCacheImportFailedException(
 					new IOException("Failed to load cached library " + classpathEntry.getLib()));
 		}
@@ -190,7 +224,7 @@ public class ProjectJarManager extends JarManager {
 		try {
 			addClassFileSource(libraryInfo);
 		} catch (IOException e) {
-			LOG.warn("Failed to load classpath file " + classpathEntry.getLib(), e);
+			LOG.warn("Failed to load classpath file {}", classpathEntry.getLib(), e);
 			throw new GradleCacheImportFailedException(
 					new IOException("Failed to load classpath file " + classpathEntry.getLib()));
 		}
