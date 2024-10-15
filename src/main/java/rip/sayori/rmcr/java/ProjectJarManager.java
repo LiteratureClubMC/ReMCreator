@@ -80,6 +80,7 @@ public class ProjectJarManager extends JarManager {
 				addClassFileSource(getJVMLibraryInfo());
 			} catch (IOException e) {
 				LOG.warn("Failed to load JVM to JAR manager", e);
+				throw new RuntimeException(e);
 			}
 
 		this.classpath = loadClassPathJARs(generator);
@@ -155,6 +156,7 @@ public class ProjectJarManager extends JarManager {
 				addClassFileSource(getJVMLibraryInfo());
 			} catch (IOException e) {
 				LOG.warn("Failed to load JVM to JAR manager", e);
+				throw new RuntimeException(e);
 			}
 
 		for (GeneratorGradleCache.ClasspathEntry classpathEntry : classPathEntries) {

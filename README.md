@@ -1,5 +1,5 @@
 [![MCreator](https://mcreator.net/image/brand/mcreator300s.png)](https://mcreator.net/)
 
-# ReMCreator - The Fork Of MCreator 1.12.2
+# ReMCreator - Retro Extended MCreator
 
-## Note:You Need BellSoft Liberica JDK To Run
+## Note: You Need Corretto Java21 to run.

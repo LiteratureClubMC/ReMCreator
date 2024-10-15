@@ -14,8 +14,8 @@ task copyDeps(type: Copy) {
 // export  all plugins
 file('plugins').traverse([maxDepth: 0, type: groovy.io.FileType.DIRECTORIES]) {
     tasks.create(name: 'export_plugin_' + it.getName().replace('.', ''), type: Zip) { task ->
-        task.archiveName = it.getName() + '.zip'
-        task.destinationDir = file('build/plugins/')
+        task.archiveFileName = it.getName() + '.zip'
+        task.destinationDirectory = file('build/plugins/')
         task.from 'plugins/' + it.getName()
         task.group "mcreatorPlugins"
         task.mustRunAfter cleanupPlugins
@@ -34,8 +34,8 @@ task exportReleasePreTask(type: DefaultTask, dependsOn: testClasses) {
     }
 }
 tasks.register('exportZip', Zip) {
-    archiveName "export.zip"
-    destinationDir file('build/')
+    archiveFileName = "export.zip"
+    destinationDirectory = file('build/')
     from('build/export')
 }
 
@@ -54,7 +54,9 @@ task export(type: Copy, dependsOn: [exportReleasePreTask, jar, exportPlugins, co
     into 'build/export/'
     into('') {
         from file('LICENSE.txt')
+        from file("README.md")
         from "platform/launcher/"
+        //from file("jrebin")
     }
     into('plugins') { from 'build/plugins/' }
     into('license') { with copySpec { from 'license' } }
@@ -63,6 +65,6 @@ task export(type: Copy, dependsOn: [exportReleasePreTask, jar, exportPlugins, co
         from "build/libs/mcreator.jar"
     }
     doLast {
-        project.logger.lifecycle('\nFINISHED export for MCreator ' + (String) project.mcreatorconf.getProperty('mcreator'))
+        project.logger.lifecycle('\nFINISHED export for ReMCreator ' + (String) project.mcreatorconf.getProperty('mcreator'))
     }
 }
