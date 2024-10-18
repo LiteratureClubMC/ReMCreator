@@ -78,7 +78,6 @@ public final class ModElementTypeRegistry {
 		//put(ModElementType.AT, new ModTypeRegistration<>(null, 33, AccessTransformerGUI::new, AccessTransformer.class));
 		put(ModElementType.TAG, new ModTypeRegistration<>('j', 25, TagGUI::new, Tag.class));
 		put(ModElementType.LOOTTABLE, new ModTypeRegistration<>('q', 26, LootTableGUI::new, LootTable.class));
-		put(ModElementType.FUNCTION, new ModTypeRegistration<>('u', 27, FunctionGUI::new, Function.class));
 		put(ModElementType.MUSICDISC, new ModTypeRegistration<>(null, 28, MusicDiscGUI::new, MusicDisc.class));
 		put(ModElementType.PAINTING, new ModTypeRegistration<>(null, 30, PaintingGUI::new, Painting.class));
 		put(ModElementType.PARTICLE, new ModTypeRegistration<>(null, 31, ParticleGUI::new, Particle.class));

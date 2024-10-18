@@ -93,7 +93,7 @@ public class RSyntaxTextAreaStyler {
 		te.revalidate();
 
 		sp.addMouseWheelListener(mouseWheelEvent -> {
-			if ((mouseWheelEvent.getModifiers() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK && te.hasFocus()) {
+			if ((mouseWheelEvent.getModifiersEx() & ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK && te.hasFocus()) {
 				float current = te.getFont().getSize();
 
 				current -= mouseWheelEvent.getWheelRotation();

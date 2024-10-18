@@ -64,6 +64,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -94,7 +95,7 @@ public class BlocklyPanel extends JFXPanel {
 					(ListChangeListener<Node>) change -> browser.lookupAll(".scroll-bar")
 							.forEach(bar -> bar.setVisible(false)));
 			webEngine = browser.getEngine();
-			webEngine.load(BlocklyPanel.this.getClass().getResource("/blockly/blockly.html").toExternalForm());
+			webEngine.load(Objects.requireNonNull(BlocklyPanel.this.getClass().getResource("/blockly/blockly.html")).toExternalForm());
 			webEngine.getLoadWorker().stateProperty().addListener((ov, oldState, newState) -> {
 				if (!loaded && newState == Worker.State.SUCCEEDED && webEngine.getDocument() != null) {
 					// load CSS from file to select proper style for OS

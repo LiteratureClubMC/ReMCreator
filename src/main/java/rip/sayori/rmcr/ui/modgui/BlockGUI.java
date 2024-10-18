@@ -870,9 +870,8 @@ public class BlockGUI extends ModElementGUI<Block> {
 					ModElement element = mcreator.getWorkspace().getModElementByName(selected);
 					if (element != null) {
 						GeneratableElement generatableElement = element.getGeneratableElement();
-						if (generatableElement instanceof GUI) {
-							GUI gui = (GUI) generatableElement;
-							inventorySize.setValue(gui.getMaxSlotID() + 1);
+						if (generatableElement instanceof GUI gui) {
+                            inventorySize.setValue(gui.getMaxSlotID() + 1);
 							StringBuilder inslots = new StringBuilder();
 							StringBuilder outslots = new StringBuilder();
 							for (GUIComponent slot : gui.components)
@@ -1372,15 +1371,15 @@ public class BlockGUI extends ModElementGUI<Block> {
 		block.inventoryStackSize = (int) inventoryStackSize.getValue();
 		block.inventoryDropWhenDestroyed = inventoryDropWhenDestroyed.isSelected();
 		block.inventoryComparatorPower = inventoryComparatorPower.isSelected();
-		if (outSlotIDs.getText().trim().equals(""))
+		if (outSlotIDs.getText().trim().isEmpty())
 			block.inventoryOutSlotIDs = new ArrayList<>();
 		else
-			block.inventoryOutSlotIDs = Stream.of(outSlotIDs.getText().split(",")).filter(e -> !e.equals(""))
+			block.inventoryOutSlotIDs = Stream.of(outSlotIDs.getText().split(",")).filter(e -> !e.isEmpty())
 					.map(Integer::parseInt).collect(Collectors.toList());
-		if (inSlotIDs.getText().trim().equals(""))
+		if (inSlotIDs.getText().trim().isEmpty())
 			block.inventoryInSlotIDs = new ArrayList<>();
 		else
-			block.inventoryInSlotIDs = Stream.of(inSlotIDs.getText().split(",")).filter(e -> !e.equals(""))
+			block.inventoryInSlotIDs = Stream.of(inSlotIDs.getText().split(",")).filter(e -> !e.isEmpty())
 					.map(Integer::parseInt).collect(Collectors.toList());
 		block.frequencyPerChunks = (int) frequencyPerChunks.getValue();
 		block.frequencyOnChunk = (int) frequencyOnChunk.getValue();

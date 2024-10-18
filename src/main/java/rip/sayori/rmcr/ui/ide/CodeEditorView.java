@@ -69,7 +69,6 @@ import rip.sayori.rmcr.ui.component.util.KeyStrokes;
 import rip.sayori.rmcr.ui.ide.autocomplete.CustomJSCCache;
 import rip.sayori.rmcr.ui.ide.autocomplete.StringCompletitionProvider;
 import rip.sayori.rmcr.ui.ide.json.JsonTree;
-import rip.sayori.rmcr.ui.ide.mcfunction.MinecraftCommandsTokenMaker;
 import rip.sayori.rmcr.ui.laf.FileIcons;
 import rip.sayori.rmcr.ui.laf.SlickDarkScrollBarUI;
 import rip.sayori.rmcr.ui.laf.SlickTreeUI;
@@ -322,7 +321,7 @@ public class CodeEditorView extends ViewBase {
 
 		if (!readOnly)
 			KeyStrokes.registerKeyStroke(
-					KeyStroke.getKeyStroke(KeyEvent.VK_B, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), te,
+					KeyStroke.getKeyStroke(KeyEvent.VK_B, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), te,
 					new AbstractAction() {
 						@Override public void actionPerformed(ActionEvent actionEvent) {
 							disableJumpToMode();
@@ -336,7 +335,7 @@ public class CodeEditorView extends ViewBase {
 
 		if (!readOnly)
 			KeyStrokes.registerKeyStroke(
-					KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), te,
+					KeyStroke.getKeyStroke(KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), te,
 					new AbstractAction() {
 						@Override public void actionPerformed(ActionEvent actionEvent) {
 							disableJumpToMode();
@@ -349,7 +348,7 @@ public class CodeEditorView extends ViewBase {
 
 		if (!readOnly)
 			KeyStrokes.registerKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_M,
-							Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | InputEvent.SHIFT_DOWN_MASK, false), te,
+							Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK, false), te,
 					new AbstractAction() {
 						@Override public void actionPerformed(ActionEvent actionEvent) {
 							disableJumpToMode();
@@ -377,7 +376,7 @@ public class CodeEditorView extends ViewBase {
 
 	public static boolean isFileSupported(String fileName) {
 		return Arrays.asList("java", "info", "txt", "json", "mcmeta", "lang", "gradle", "ini", "conf", "xml",
-						"properties", "mcfunction", "toml", "js", "yaml", "yml", "md")
+						"properties", "toml", "js", "yaml", "yml", "md")
 				.contains(FilenameUtils.getExtension(fileName));
 	}
 
@@ -474,7 +473,7 @@ public class CodeEditorView extends ViewBase {
 
 				@Override public void mouseEntered(MouseEvent e) {
 					super.mouseEntered(e);
-					if ((e.getModifiers() & MouseEvent.CTRL_MASK) == MouseEvent.CTRL_MASK) {
+					if ((e.getModifiersEx() & MouseEvent.CTRL_MASK) == MouseEvent.CTRL_MASK) {
 						te.setCursor(new Cursor(Cursor.HAND_CURSOR));
 						jumpToMode = true;
 					}
@@ -503,12 +502,6 @@ public class CodeEditorView extends ViewBase {
 					}
 					jumpToMode = false;
 				}
-			});
-		} else if (fileName.endsWith(".mcfunction")) {
-			SwingUtilities.invokeLater(() -> {
-				AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
-				atmf.putMapping("text/mcfunction", MinecraftCommandsTokenMaker.class.getName());
-				te.setSyntaxEditingStyle("text/mcfunction");
 			});
 		} else if (fileName.endsWith(".info") || fileName.endsWith(".json") || fileName.endsWith(".mcmeta")) {
 			SwingUtilities.invokeLater(() -> te.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JSON));

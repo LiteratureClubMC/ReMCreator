@@ -51,10 +51,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -79,21 +76,20 @@ public class PluginLoader extends URLClassLoader {
 
 		Collections.sort(pluginsLoadList);
 
-		List<String> idList = pluginsLoadList.stream().map(Plugin::getID).collect(Collectors.toList());
+		List<String> idList = pluginsLoadList.stream().map(Plugin::getID).toList();
 
 		for (Plugin plugin : pluginsLoadList) {
 			if (plugin.getInfo().getDependencies() != null) {
-				if (!idList.containsAll(plugin.getInfo().getDependencies())) {
-					LOG.warn(plugin.getInfo().getName() + " can not be loaded. The plugin needs " + plugin.getInfo()
-							.getDependencies());
+				if (!new HashSet<>(idList).containsAll(plugin.getInfo().getDependencies())) {
+                    LOG.warn("{} can not be loaded. The plugin needs {}", plugin.getInfo().getName(), plugin.getInfo()
+                            .getDependencies());
 					plugin.loaded = false;
 					continue;
 				}
 			}
 
 			try {
-				LOG.info("Loading plugin: " + plugin.getID() + " from " + plugin.getFile() + ", weight: "
-						+ plugin.getWeight());
+                LOG.info("Loading plugin: {} from {}, weight: {}", plugin.getID(), plugin.getFile(), plugin.getWeight());
 				if (plugin.getFile().isDirectory()) {
 					addURL(plugin.getFile().toURI().toURL());
 				} else {
@@ -141,7 +137,7 @@ public class PluginLoader extends URLClassLoader {
 			Plugin plugin = loadPlugin(pluginFile, builtin);
 			if (plugin != null) {
 				if (plugins.contains(plugin)) {
-					LOG.warn("Trying to load duplicate plugin: " + plugin.getID() + " from: " + plugin.getFile());
+                    LOG.warn("Trying to load duplicate plugin: {} from: {}", plugin.getID(), plugin.getFile());
 					continue;
 				}
 				plugins.add(plugin);
@@ -163,7 +159,7 @@ public class PluginLoader extends URLClassLoader {
 					plugin.file = pluginFile;
 					return validatePlugin(plugin);
 				} catch (Exception e) {
-					LOG.error("Failed to load plugin from " + pluginFile, e);
+                    LOG.error("Failed to load plugin from {}", pluginFile, e);
 				}
 			} else {
 				File[] pluginFiles = pluginFile.listFiles();
@@ -180,7 +176,7 @@ public class PluginLoader extends URLClassLoader {
 				plugin.file = pluginFile;
 				return validatePlugin(plugin);
 			} catch (Exception e) {
-				LOG.error("Failed to load plugin from " + pluginFile, e);
+                LOG.error("Failed to load plugin from {}", pluginFile, e);
 			}
 		}
 		return null;
@@ -188,13 +184,12 @@ public class PluginLoader extends URLClassLoader {
 
 	@Nullable private Plugin validatePlugin(Plugin plugin) {
 		if (!plugin.isCompatible()) {
-			LOG.warn("Plugin " + plugin.getID()
-					+ " is not compatible with this MCreator version! Skipping this plugin.");
+            LOG.warn("Plugin {} is not compatible with this MCreator version! Skipping this plugin.", plugin.getID());
 			return null;
 		}
 
 		if (plugin.getMinVersion() < 0) {
-			LOG.warn("Plugin " + plugin.getID() + " does not specify minversion. Skipping this plugin.");
+            LOG.warn("Plugin {} does not specify minversion. Skipping this plugin.", plugin.getID());
 			return null;
 		}
 

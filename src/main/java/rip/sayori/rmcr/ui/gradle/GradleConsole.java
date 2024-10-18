@@ -135,7 +135,7 @@ public class GradleConsole extends JPanel {
 							}
 						}
 					} catch (SecurityException | IllegalArgumentException ex) {
-						LOG.info("Loading JARs for code editor failed. Error: " + ex.getMessage());
+                        LOG.info("Loading JARs for code editor failed. Error: {}", ex.getMessage());
 					}
 				}
 			}
@@ -185,7 +185,7 @@ public class GradleConsole extends JPanel {
 		options.add(searchen);
 
 		KeyStrokes.registerKeyStroke(
-				KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), pan,
+				KeyStroke.getKeyStroke(KeyEvent.VK_F, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), pan,
 				new AbstractAction() {
 					@Override public void actionPerformed(ActionEvent actionEvent) {
 						searchen.setSelected(true);
@@ -385,131 +385,133 @@ public class GradleConsole extends JPanel {
 
 		task.addProgressListener((ProgressListener) event -> ref.statusBar.setGradleMessage(event.getDescription()));
 
-		task.run(new ResultHandler<Void>() {
-			@Override public void onComplete(Void result) {
-				SwingUtilities.invokeLater(() -> {
-					ref.getWorkspace().checkFailingGradleDependenciesAndClear(); // clear flag without checking
+		task.run(new ResultHandler<>() {
+            @Override
+            public void onComplete(Void result) {
+                SwingUtilities.invokeLater(() -> {
+                    ref.getWorkspace().checkFailingGradleDependenciesAndClear(); // clear flag without checking
 
-					succeed();
-					taskComplete(GradleErrorCodes.STATUS_OK);
-				});
-			}
+                    succeed();
+                    taskComplete(GradleErrorCodes.STATUS_OK);
+                });
+            }
 
-			@Override public void onFailure(GradleConnectionException failure) {
-				SwingUtilities.invokeLater(() -> {
-					boolean errorhandled = false;
+            @Override
+            public void onFailure(GradleConnectionException failure) {
+                SwingUtilities.invokeLater(() -> {
+                    boolean errorhandled = false;
 
-					boolean workspaceReportedFailingGradleDependencies = ref.getWorkspace()
-							.checkFailingGradleDependenciesAndClear();
+                    boolean workspaceReportedFailingGradleDependencies = ref.getWorkspace()
+                            .checkFailingGradleDependenciesAndClear();
 
-					if (failure instanceof BuildException) {
-						if (GradleErrorDecoder.doesErrorSuggestRerun(taskErr.toString() + taskOut)) {
-							if (!rerunFlag) {
-								rerunFlag = true;
+                    if (failure instanceof BuildException) {
+                        if (GradleErrorDecoder.doesErrorSuggestRerun(taskErr.toString() + taskOut)) {
+                            if (!rerunFlag) {
+                                rerunFlag = true;
 
-								LOG.warn("Gradle task suggested re-run. Attempting re-running task: " + command);
+                                LOG.warn("Gradle task suggested re-run. Attempting re-running task: {}", command);
 
-								// Re-run the same command with the same listener
-								GradleConsole.this.exec(command, taskSpecificListener);
+                                // Re-run the same command with the same listener
+                                GradleConsole.this.exec(command, taskSpecificListener);
 
-								return;
-							}
-						} else if (workspaceReportedFailingGradleDependencies
-								|| GradleErrorDecoder.isErrorCausedByCorruptedCaches(taskErr.toString() + taskOut)) {
-							Object[] options = { "Clear Gradle caches", "Clear entire Gradle folder",
-									"<html><font color=gray>Do nothing" };
-							int reply = JOptionPane.showOptionDialog(ref,
-									L10N.t("dialog.gradle_console.gradle_caches_corrupted_message"),
-									L10N.t("dialog.gradle_console.gradle_caches_corrupted_title"),
-									JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-							if (reply == 0 || reply == 1) {
-								taskComplete(GradleErrorCodes.GRADLE_CACHEDATA_ERROR);
+                                return;
+                            }
+                        } else if (workspaceReportedFailingGradleDependencies
+                                || GradleErrorDecoder.isErrorCausedByCorruptedCaches(taskErr.toString() + taskOut)) {
+                            Object[] options = {"Clear Gradle caches", "Clear entire Gradle folder",
+                                    "<html><font color=gray>Do nothing"};
+                            int reply = JOptionPane.showOptionDialog(ref,
+                                    L10N.t("dialog.gradle_console.gradle_caches_corrupted_message"),
+                                    L10N.t("dialog.gradle_console.gradle_caches_corrupted_title"),
+                                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                            if (reply == 0 || reply == 1) {
+                                taskComplete(GradleErrorCodes.GRADLE_CACHEDATA_ERROR);
 
-								ClearAllGradleCachesAction.clearAllGradleCaches(ref, reply == 1,
-										workspaceReportedFailingGradleDependencies);
+                                ClearAllGradleCachesAction.clearAllGradleCaches(ref, reply == 1,
+                                        workspaceReportedFailingGradleDependencies);
 
-								return;
-							}
-							errorhandled = true;
-						} else if (taskErr.toString().contains("compileJava FAILED") || taskOut.toString()
-								.contains("compileJava FAILED")) {
-							errorhandled = CodeErrorDialog.showCodeErrorDialog(ref, taskErr.toString() + taskOut);
-						}
-						append("BUILD FAILED", new Color(0xF98771));
-					} else if (failure instanceof BuildCancelledException) {
-						append("TASK CANCELED", new Color(0xF5F984));
-						succeed();
-						taskComplete(GradleErrorCodes.STATUS_OK);
-						return;
-					} else if (failure.getCause().getClass().getSimpleName().equals("DaemonDisappearedException")
-							// workaround for MDK bug with gradle daemon
-							&& command.startsWith("run")) {
-						append("RUN COMPLETE", new Color(0, 255, 182));
-						succeed();
-						taskComplete(GradleErrorCodes.STATUS_OK);
-						return;
-					} else {
-						String exception = ExceptionUtils.getFullStackTrace(failure);
-						taskErr.append(exception);
+                                return;
+                            }
+                            errorhandled = true;
+                        } else if (taskErr.toString().contains("compileJava FAILED") || taskOut.toString()
+                                .contains("compileJava FAILED")) {
+                            errorhandled = CodeErrorDialog.showCodeErrorDialog(ref, taskErr.toString() + taskOut);
+                        }
+                        append("BUILD FAILED", new Color(0xF98771));
+                    } else if (failure instanceof BuildCancelledException) {
+                        append("TASK CANCELED", new Color(0xF5F984));
+                        succeed();
+                        taskComplete(GradleErrorCodes.STATUS_OK);
+                        return;
+                    } else if (failure.getCause().getClass().getSimpleName().equals("DaemonDisappearedException")
+                            // workaround for MDK bug with gradle daemon
+                            && command.startsWith("run")) {
+                        append("RUN COMPLETE", new Color(0, 255, 182));
+                        succeed();
+                        taskComplete(GradleErrorCodes.STATUS_OK);
+                        return;
+                    } else {
+                        String exception = ExceptionUtils.getFullStackTrace(failure);
+                        taskErr.append(exception);
 
-						if (serr.isSelected()) {
-							Arrays.stream(exception.split("\n")).forEach(line -> {
-								if (!line.trim().isEmpty())
-									append(line);
-							});
-						}
-						append("TASK EXECUTION FAILED", new Color(0xF98771));
-					}
+                        if (serr.isSelected()) {
+                            Arrays.stream(exception.split("\n")).forEach(line -> {
+                                if (!line.trim().isEmpty())
+                                    append(line);
+                            });
+                        }
+                        append("TASK EXECUTION FAILED", new Color(0xF98771));
+                    }
 
-					fail();
+                    fail();
 
-					int resultcode = 0;
+                    int resultcode = 0;
 
-					if (!errorhandled)
-						resultcode = GradleErrorDecoder.processErrorAndShowMessage(taskOut.toString(),
-								taskErr.toString(), ref);
+                    if (!errorhandled)
+                        resultcode = GradleErrorDecoder.processErrorAndShowMessage(taskOut.toString(),
+                                taskErr.toString(), ref);
 
-					if (resultcode == GradleErrorCodes.STATUS_OK)
-						resultcode = GradleErrorCodes.GRADLE_BUILD_FAILED;
+                    if (resultcode == GradleErrorCodes.STATUS_OK)
+                        resultcode = GradleErrorCodes.GRADLE_BUILD_FAILED;
 
-					taskComplete(resultcode);
-				});
-			}
+                    taskComplete(resultcode);
+                });
+            }
 
-			private void fail() {
-				status = ERROR;
-				ref.consoleTab.repaint();
-				ref.statusBar.reloadGradleIndicator();
-				ref.statusBar.setGradleMessage(L10N.t("gradle.idle"));
-			}
+            private void fail() {
+                status = ERROR;
+                ref.consoleTab.repaint();
+                ref.statusBar.reloadGradleIndicator();
+                ref.statusBar.setGradleMessage(L10N.t("gradle.idle"));
+            }
 
-			private void succeed() {
-				status = READY;
-				ref.consoleTab.repaint();
-				ref.statusBar.reloadGradleIndicator();
-				ref.statusBar.setGradleMessage(L10N.t("gradle.idle"));
+            private void succeed() {
+                status = READY;
+                ref.consoleTab.repaint();
+                ref.statusBar.reloadGradleIndicator();
+                ref.statusBar.setGradleMessage(L10N.t("gradle.idle"));
 
-				// on success, we clear the re-run flag
-				if (rerunFlag) {
-					rerunFlag = false;
-					LOG.info("Clearing the re-run flag after a successful re-run");
-				}
-			}
+                // on success, we clear the re-run flag
+                if (rerunFlag) {
+                    rerunFlag = false;
+                    LOG.info("Clearing the re-run flag after a successful re-run");
+                }
+            }
 
-			private void taskComplete(int mcreatorGradleStatus) {
-				append("Task completed in " + TimeUtils.millisToLongDHMS(System.currentTimeMillis() - millis),
-						Color.gray, true);
+            private void taskComplete(int mcreatorGradleStatus) {
+                append("Task completed in " + TimeUtils.millisToLongDHMS(System.currentTimeMillis() - millis),
+                        Color.gray, true);
 
-				if (taskSpecificListener != null)
-					taskSpecificListener.onTaskFinished(new GradleTaskResult("", mcreatorGradleStatus));
+                if (taskSpecificListener != null)
+                    taskSpecificListener.onTaskFinished(new GradleTaskResult("", mcreatorGradleStatus));
 
-				stateListeners.forEach(
-						listener -> listener.taskFinished(new GradleTaskResult("", mcreatorGradleStatus)));
+                stateListeners.forEach(
+                        listener -> listener.taskFinished(new GradleTaskResult("", mcreatorGradleStatus)));
 
-				// reload mods view to display errors
-				ref.mv.updateMods();
-			}
-		});
+                // reload mods view to display errors
+                ref.mv.updateMods();
+            }
+        });
 	}
 
 	public int getStatus() {
@@ -544,7 +546,7 @@ public class GradleConsole extends JPanel {
 	private void appendAutoColor(String text) {
 		pan.beginTransaction();
 
-		if (!text.equals("")) {
+		if (!text.isEmpty()) {
 			Color c = (Color) UIManager.get("MCreatorLAF.BRIGHT_COLOR");
 
 			if (!text.endsWith("\n"))
@@ -659,7 +661,7 @@ public class GradleConsole extends JPanel {
 	}
 
 	private void appendErrorWithCodeLine(String text) {
-		if (!text.equals("")) {
+		if (!text.isEmpty()) {
 			String err = text.replaceAll(": error:.*", "");
 			String othr = text.replaceAll(".+\\.java:\\d+", "") + "\n";
 			SimpleAttributeSet keyWord = new SimpleAttributeSet();
@@ -672,7 +674,7 @@ public class GradleConsole extends JPanel {
 	}
 
 	private void appendErrorWithCodeLine2(String text) {
-		if (!text.equals("")) {
+		if (!text.isEmpty()) {
 			try {
 				Matcher matcher = jpattern.matcher(text);
 				matcher.find();
@@ -699,7 +701,7 @@ public class GradleConsole extends JPanel {
 	}
 
 	public void append(String text, Color c, boolean a) {
-		if (!text.equals("")) {
+		if (!text.isEmpty()) {
 			if (!text.endsWith("\n"))
 				text = text + "\n";
 			SimpleAttributeSet keyWord = new SimpleAttributeSet();
@@ -707,7 +709,7 @@ public class GradleConsole extends JPanel {
 			StyleConstants.setItalic(keyWord, a);
 			StyleConstants.setForeground(keyWord, c);
 			StyleConstants.setBackground(keyWord, (Color) UIManager.get("MCreatorLAF.BLACK_ACCENT"));
-			pan.insertString("" + text, keyWord);
+			pan.insertString(text, keyWord);
 		}
 		scrollToBottom();
 	}
