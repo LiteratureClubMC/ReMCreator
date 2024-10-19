@@ -128,20 +128,21 @@ public class ProjectJarManager extends JarManager {
 		File tgt = new File(Files.createTempFile("jmod-rmcr_",".jar").toUri());
 		tgt.deleteOnExit();
 		try{
-			ZipFile moduleFile = new ZipFile(modulePath);
-			ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tgt));
-			for(Enumeration<? extends ZipEntry> enums = moduleFile.entries(); enums.hasMoreElements();){
-				ZipEntry entry = enums.nextElement();
-				String name = entry.getName();
-				if((name.startsWith("classes") && !name.contains("module-info")) || name.startsWith("resources")){
-					zipOutputStream.putNextEntry(new ZipEntry(name.substring(name.indexOf('/') + 1)));
-					InputStream in = moduleFile.getInputStream(entry);
-					while(in.available() > 0)
-						zipOutputStream.write(in.read());
-					zipOutputStream.flush();
+			try (ZipFile moduleFile = new ZipFile(modulePath)) {
+				ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(tgt));
+				for(Enumeration<? extends ZipEntry> enums = moduleFile.entries(); enums.hasMoreElements();){
+					ZipEntry entry = enums.nextElement();
+					String name = entry.getName();
+					if((name.startsWith("classes") && !name.contains("module-info")) || name.startsWith("resources")){
+						zipOutputStream.putNextEntry(new ZipEntry(name.substring(name.indexOf('/') + 1)));
+						InputStream in = moduleFile.getInputStream(entry);
+						while(in.available() > 0)
+							zipOutputStream.write(in.read());
+						zipOutputStream.flush();
+					}
 				}
+				zipOutputStream.close();
 			}
-			zipOutputStream.close();
 		}
 		catch(Exception e){
 			LOG.error(e.getLocalizedMessage());
