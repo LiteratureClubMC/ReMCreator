@@ -78,7 +78,7 @@ dependencies {
     implementation 'zone.rong:imaginebreaker:2.1'
 
     // for annotations
-    compileOnly group: 'org.jetbrains', name: 'annotations', version: '20.1.0'
+    compileOnly group: 'org.jetbrains', name: 'annotations', version: '26.0.1'
 
     // test dependencies
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
