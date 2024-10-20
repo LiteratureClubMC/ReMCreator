@@ -90,7 +90,7 @@ public class ProjectJarManager extends JarManager {
 		File jreHome = new File(System.getProperty("java.home"));
 
 		final File classesArchive = findExistingPath(new File(GradleUtils.getJavaHome()), "lib/rt.jar", "../Classes/classes.jar",
-				"jmods/java.base.jmod");
+				"jmods/java.base.jmod", "lib/modules");
 		if (classesArchive == null) {
 			LOG.warn("Failed to load default JRE JAR info");
 			return null;
@@ -98,7 +98,7 @@ public class ProjectJarManager extends JarManager {
 
 		final LibraryInfo info;
 
-		if (classesArchive.getName().endsWith(".jmod")) {
+		if (classesArchive.getName().endsWith(".jmod") || classesArchive.getName().equals("modules")) {
 			try {
 				info = new JarLibraryInfo(prepareModule(classesArchive));
 			} catch (IOException e) {

@@ -29,6 +29,7 @@ tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 System.setProperty("user.dir", projectDir.toString())
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.vendor = JvmVendorSpec.AMAZON
 
 idea {
     module {

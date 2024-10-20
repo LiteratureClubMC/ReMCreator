@@ -49,6 +49,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -71,15 +72,18 @@ public class GeneratorConfiguration implements Comparable<GeneratorConfiguration
 		this.generatorName = generatorName;
 
 		String config = FileIO.readResourceToString(PluginLoader.INSTANCE, "/" + generatorName + "/generator.yaml");
-		YamlReader reader = new YamlReader(config);
-
-		// load generator configuration
-		try {
-			generatorConfig = (Map<?, ?>) reader.read();
-			generatorConfig = new ConcurrentHashMap<>(
-					generatorConfig); // make this map concurent, cache can be reused by multiple instances
-		} catch (YamlException e) {
-			LOG.fatal("[" + generatorName + "] Error: " + e.getMessage());
+		try (YamlReader reader = new YamlReader(config)) {
+			// load generator configuration
+			try {
+				generatorConfig = (Map<?, ?>) reader.read();
+				generatorConfig = new ConcurrentHashMap<>(
+						generatorConfig); // make this map concurent, cache can be reused by multiple instances
+			} catch (YamlException e) {
+				LOG.fatal("[" + generatorName + "] Error: " + e.getMessage());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		this.generatorFlavor = GeneratorFlavor.valueOf(this.generatorName.split("-")[0].toUpperCase(Locale.ENGLISH));

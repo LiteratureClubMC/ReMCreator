@@ -45,6 +45,7 @@ import rip.sayori.rmcr.plugin.PluginLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,12 +64,16 @@ class DefinitionsProvider {
 			if (config.equals("")) // definition not specified
 				continue;
 
-			YamlReader reader = new YamlReader(config);
-			try {
-				cache.put(type, new ConcurrentHashMap<>((Map<?, ?>) reader.read())); // add definition to the cache
-			} catch (YamlException e) {
-				LOG.error(e.getMessage(), e);
-				LOG.info("[" + generatorName + "] Error: " + e.getMessage());
+			try (YamlReader reader = new YamlReader(config)) {
+				try {
+					cache.put(type, new ConcurrentHashMap<>((Map<?, ?>) reader.read())); // add definition to the cache
+				} catch (YamlException e) {
+					LOG.error(e.getMessage(), e);
+					LOG.info("[" + generatorName + "] Error: " + e.getMessage());
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
